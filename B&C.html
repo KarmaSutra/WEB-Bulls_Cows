@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Jeux de Bulls AND Cows</title>
+
+
+    <script language="javascript" type="text/javascript">
+
+    var txt,nbessais;
+
+    	txt=selectionmot(txt);
+    	nbessais=creation_nbessais(txt,nbessais);
+
+
+
+    	document.write('Bienvenue sur le jeu du Bulls And Cows.Vous venez de commencer une nouvelle partie.');
+    	document.write('Vous recherchez un mot de '+txt.length+' et avez '+nbessais+' essais.');
+
+
+
+    		function selectionmot(txt){
+    			var x,j,i;
+
+
+    			x=Math.floor((Math.random() * 10) + 1);
+    			j="oui peu cour bleu corps plume quatre soufre humains blondes";
+    		
+
+	    		while (i<=j.length){
+
+
+	    			if (j[i]==' '){
+	    				i+=1;
+	    			}
+
+
+
+	    			if (i==x){
+	    				txt+=j[i];
+	    			}
+	    		}
+
+	    	return txt;	
+	    	}
+    		
+
+
+
+
+
+
+
+
+
+
+    		function creation_nbessais(txt,nbessais){
+
+    			
+
+    			switch (txt.length){
+
+    				case 3:nbessais=4;
+
+					case 4:nbessais=7;
+
+					case 5:nbessais=10;
+
+					case 6:nbessais=16;
+
+					case 7:nbessais=20;
+    			}
+    			return nbessais;
+
+    		}
+
+
+    		
+			
+
+
+
+    	function maj (bulls,cows,nbessais,txt){
+    	
+    		if (nbessais<=0){
+
+
+    	 	console.log('Vous avez malheureusement perdu, mais rechargez la page pour une nouvelle partie.');
+    	 	creation_mot();
+    		}else{  	
+    			document.write('Il vous reste '+nbessais+' essais pour un mot de '+txt.length+' caractères de long.');
+    			console.log('Vous avez '+bulls+' bulls et '+cows+' cows.');
+    			document.getElementById('mottape').focus();
+   				}
+    	}
+
+
+
+
+
+    	function testlongueur(mottesté,txt,testcorrect){
+    	
+
+    		testcorrect= (txt.length==mottesté.length);
+    		return testcorrect;
+    	}
+
+
+    	function testcaractères (mottesté,testcorrect){
+
+    	var a,b,lettres_utilisees;
+
+    		for (a=1; a>mottesté.length; a++){
+
+    			if ((mottesté.charCodeAt(a)>=97)&&(mottesté.charCodeAt(a)<=122)){
+    				testcorrect=testcorrect&&true;
+    			}else{
+    				testcorrect=testcorrect&&false;
+
+    			}
+
+    			for (b=1; b>lettres_utilisees.length; b++){
+
+    				if (mottesté[a]!=lettres_utilisees[b]){
+    					testcorrect=testcorrect&&true;
+    				}else{
+    					testcorrect=testcorrect&&false;
+    				}
+    			}	
+    			lettres_utilisees+=mottesté[a];
+
+    		}
+    		return testcorrect;
+    	}
+
+
+
+    	function testbulls (mottesté,txt,bulls){
+
+    	var d;
+
+    		for (d=1; d>mottesté.length;d++){
+    			if(mottesté[d]==txt[d]){
+    				bulls+=1;
+    			}
+    		}
+    		return bulls;
+    	}
+
+
+    	function testcows (mottesté,txt,cows){
+
+    	var e,f;
+
+    		
+    		for (e=1; e>mottesté.length;e++){
+
+    			for (f=1; f>mottesté.length;f++){
+
+    				if((mottesté[e]==txt[f])&&(e!=f)){
+    				cows+=1;
+    				}
+    			}	
+    		}
+    		return cows;
+    	}
+
+
+
+    	function victoire(mottesté,txt,v_d){
+
+    		if (mottesté==txt){
+    			v_d=true;
+    		}else{
+    			v_d=false;
+    		}
+    		return v_d;
+    	}
+
+
+
+    	function Felicitations(){
+
+    		document.write("Vous avez trouvé le bon mot, félicitations, rechargez la page pour une nouvelle partie.");
+    		creation_mot();
+
+    	}
+
+
+		
+
+
+
+
+
+    	function clickcheck (txt,nbessais){
+
+    		var mottesté,testcorrect,v_d;
+
+
+    		mottesté=document.getElementById('mottape').VALUE();
+
+    		testcorrect=testlongueur(mottesté,txt);
+    		testcorrect=testcaractères(mottesté,testcorrect);
+
+    		if(testcorrect==true){
+    			v_d=victoire(mottesté,txt)
+    		
+
+    			if(v_d==false){
+    			bulls=testbulls(mottesté,txt);
+    			cows=testcows(mottesté,txt);
+    			nbessais-=1;
+    			maj(bulls,cows,nbessais);
+    			}
+
+    			if (v_d==true){
+    				Felicitations();
+    			}
+    		}
+    	}
+
+
+
+
+</script>
+</head>
+
+<body>
+	
+
+<FORM NAME="form1">
+<INPUT TYPE="text" NAME="mottape" VALUE="" id="mottape"/></FORM></BR>
+<INPUT TYPE="button" NAME="bouton_check" VALUE="Check" onClick="clickcheck(txt,nbessais)"/>
+<INPUT TYPE="button" NAME="bouton_raz" VALUE="Commencer" onClick="creation_mot()"/>
+
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
